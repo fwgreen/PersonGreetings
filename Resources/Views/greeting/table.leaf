@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  #embed("Includes/head")
+  <body>
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+      #embed("Includes/navbar")
+      <main class="mdl-layout__content">
+        <div class="page-content">
+          <div class="content-grid mdl-grid">
+            <div class="mdl-cell">
+              <form action="/greeting/all" method="post">
+                <table class="mdl-data-table mdl-shadow--2dp">
+                  <thead>
+                    <tr>
+                      <th>
+                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect mdl-data-table__select" for="table-header">
+                          <input type="checkbox" id="table-header" class="mdl-checkbox__input" />
+                        </label>
+                      </th>
+                      <th class="mdl-data-table__cell--non-numeric">Category</th>
+                      <th>Message</th>
+                      <th>Quantity</th>
+                      <th>Unit price</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    #loop(greetings, "greeting") {
+                    <tr>
+                      <td>
+                          <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect mdl-data-table__select" for="row[#(greeting.id)]">
+                            <input type="checkbox" name="greetings" value="#(greeting.id)" id="row[#(greeting.id)]" class="mdl-checkbox__input" />
+                          </label>
+                      </td>
+                      <td class="mdl-data-table__cell--non-numeric">#(greeting.category)</td>
+                      <td>#(greeting.message)</td>
+                      <td>#(greeting.quantity)</td>
+                      <td>$#(greeting.price)</td>
+                      <td><a href="#(greeting.id)" id="gd-#(greeting.id)"><i class="material-icons mdl-list__item-icon">star</i></a></td>
+                      <span for="gd-#(greeting.id)" class="mdl-tooltip">Greeting Detail</span>
+                    </tr>
+                    }
+                  </tbody>
+                </table>
+                <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+                  View Selected Greetings
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
