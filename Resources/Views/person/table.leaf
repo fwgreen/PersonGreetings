@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  #embed("Includes/head")
+  <body>
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+      #embed("Includes/navbar")
+      <main class="mdl-layout__content">
+        <div class="page-content">
+          <div class="content-grid mdl-grid">
+            <div class="mdl-cell">
+              <form action="/person/all" method="post">
+                <table class="mdl-data-table mdl-shadow--2dp">
+                  <thead>
+                    <tr>
+                      <th>
+                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect mdl-data-table__select" for="table-header">
+                          <input type="checkbox" id="table-header" class="mdl-checkbox__input" />
+                        </label>
+                      </th>
+                      <th class="mdl-data-table__cell--non-numeric">First Name</th>
+                      <th>Last Name</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    #loop(persons, "person") {
+                    <tr>
+                      <td>
+                          <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect mdl-data-table__select" for="row[#(person.id)]">
+                            <input type="checkbox" name="persons" value="#(person.id)" id="row[#(person.id)]" class="mdl-checkbox__input" />
+                          </label>
+                      </td>
+                      <td class="mdl-data-table__cell--non-numeric">#(person.firstname)</td>
+                      <td>#(person.lastname)</td>
+                      <td><a href="/person/detail/#(person.id)" id="pd-#(person.id)"><i class="material-icons mdl-list__item-icon">person</i></a></td>
+                      <span for="pd-#(person.id)" class="mdl-tooltip">Person Detail</span>
+                    </tr>
+                    }
+                  </tbody>
+                </table>
+                <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+                  View Selected Persons
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
