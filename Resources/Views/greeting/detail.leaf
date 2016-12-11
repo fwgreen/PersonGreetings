@@ -16,7 +16,7 @@
               price: #(greeting.price)
             </div>
             <div class="mdl-card__actions mdl-card--border">
-              <a href="edit/#(greeting.id)" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+              <a href="/greeting/edit/#(greeting.id)" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
                 <i class="material-icons">create</i>  Edit Greeting
               </a>
             </div>
@@ -26,7 +26,7 @@
               </a>
             </div>
             <div class="mdl-card__menu">
-              <a href="delete/#(greeting.id)" id="dg" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+              <a href="/greeting/delete/#(greeting.id)" id="dg" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
                 <i class="material-icons">delete</i>
               </a>
               <span for="dg" class="mdl-tooltip">Delete Greeting</span>
