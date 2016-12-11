@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  #embed("Includes/head")
+  <body>
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+      #embed("Includes/navbar")
+      <main class="mdl-layout__content">
+        <div class="page-content">
+          <div class="content-grid mdl-grid">
+            <div class="mdl-cell mdl-cell--6-col">
+              <form action="/person/edit/#(person.id)" method="post">
+                <div class="mdl-textfield mdl-js-textfield">
+                  <input class="mdl-textfield__input" type="text" name="first-name" id="first-name">
+                  <label class="mdl-textfield__label" for="first-name">#(person.firstname)</label>
+                </div>
+                <div class="mdl-textfield mdl-js-textfield">
+                  <input class="mdl-textfield__input" type="text" name="last-name" id="last-name">
+                  <label class="mdl-textfield__label" for="last-name">#(person.lastname)</label>
+                </div>
+                <div class="mdl-textfield mdl-js-textfield">
+                  <input class="mdl-textfield__input" type="tel" name="telephone" id="telephone">
+                  <label class="mdl-textfield__label" for="telephone">#(person.telephone)</label>
+                </div>
+                <div class="mdl-textfield mdl-js-textfield">
+                  <input class="mdl-textfield__input" type="email" name="email" id="email">
+                  <label class="mdl-textfield__label" for="email">#(person.email)</label>
+                </div>
+                <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+                  Update Person
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
