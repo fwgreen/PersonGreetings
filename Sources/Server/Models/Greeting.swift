@@ -44,7 +44,7 @@ extension Greeting {
 
 extension Greeting : Preparation {
   static func prepare(_ database: Database) throws {
-    try database.create(entity) { greeting in
+    try database.create("greetings") { greeting in
       greeting.id()
       greeting.string("category")
       greeting.string("message")
@@ -54,6 +54,6 @@ extension Greeting : Preparation {
   }
 
   static func revert(_ database: Database) throws {
-    try database.delete(entity)
+    try database.delete("greetings")
   }
 }
