@@ -35,7 +35,7 @@
                       <td>#(greeting.message)</td>
                       <td>#(greeting.quantity)</td>
                       <td>$#(greeting.price)</td>
-                      <td><a href="#(greeting.id)" id="gd-#(greeting.id)"><i class="material-icons mdl-list__item-icon">star</i></a></td>
+                      <td><a href="/greeting/detail/#(greeting.id)" id="gd-#(greeting.id)"><i class="material-icons mdl-list__item-icon">star</i></a></td>
                       <span for="gd-#(greeting.id)" class="mdl-tooltip">Greeting Detail</span>
                     </tr>
                     }
