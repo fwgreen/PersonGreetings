@@ -1,9 +1,9 @@
 import Vapor
-import VaporSQLite
+import VaporPostgreSQL
 
-let sqlite = try VaporSQLite.Provider(path: "/home/fwgreen/sqlite/vapor.sqlite")
+let app = Droplet(preparations: [Person.self, Greeting.self])
 
-let app = Droplet(preparations: [Greeting.self, Person.self], initializedProviders: [sqlite])
+try app.addProvider(VaporPostgreSQL.Provider.self)
 
 let greetings = GreetingController()
 let persons = PersonController()
@@ -17,7 +17,11 @@ app.get("/help") { request in
 }
 
 app.group("greeting") { greeting in
-  greeting.get("/", Greeting.self, handler: greetings.detail)
+  greeting.get("/", handler: greetings.index)
+
+  greeting.get("/help", handler: greetings.help)
+
+  greeting.get("/detail", Greeting.self, handler: greetings.detail)
 
   greeting.get("/new", handler: greetings.prepare)
 
@@ -34,8 +38,12 @@ app.group("greeting") { greeting in
   greeting.get("/delete", Greeting.self, handler: greetings.delete)
 }
 
-app.group("user") { person in
-  person.get("/", Person.self, handler: persons.detail)
+app.group("person") { person in
+  person.get("/", handler: persons.index)
+
+  person.get("/help", handler: persons.help)
+
+  person.get("/detail", Person.self, handler: persons.detail)
 
   person.get("/new", handler: persons.prepare)
 
