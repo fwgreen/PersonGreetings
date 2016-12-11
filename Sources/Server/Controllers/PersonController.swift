@@ -3,18 +3,38 @@ import HTTP
 
 final class PersonController {
 
-  func detail(_ request: Request, user: Person) throws -> ResponseRepresentable {
-    return try app.view.make("user/detail", [
+  let directives = Node(["home": "/person", "create": "/person/new", "list": "/person/all", "help": "/person/help"])
+
+  func index(_ request: Request) throws -> ResponseRepresentable {
+    return try app.view.make("person/index", [
       "title": "Test App",
-      "heading": "User Detail",
-      "user": user.makeNode()
+      "heading": "Persons",
+      "directives": directives
+    ])
+  }
+
+  func help(_ request: Request) throws -> ResponseRepresentable {
+    return try app.view.make("person/help", [
+      "title": "Test App",
+      "heading": "Persons",
+      "directives": directives
+    ])
+  }
+
+  func detail(_ request: Request, person: Person) throws -> ResponseRepresentable {
+    return try app.view.make("person/detail", [
+      "title": "Test App",
+      "heading": "Person Detail",
+      "person": person.makeNode(),
+      "directives": directives
     ])
   }
 
   func prepare(_ request: Request) throws -> ResponseRepresentable {
-    return try app.view.make("user/create", [
+    return try app.view.make("person/create", [
       "title": "Test App",
-      "heading": "Create A User"
+      "heading": "Create A Person",
+      "directives": directives
     ])
   }
 
@@ -25,57 +45,63 @@ final class PersonController {
           let email = request.data["email"]?.string else {
       throw Abort.custom(status: .badRequest, message: "Incomplete Form")
     }
-    var user = Person(firstName: first, lastName: last, telephone: phone, email: email)
-    try user.save()
-    return Response(redirect: "/user/all")
+    var person = Person(firstName: first, lastName: last, telephone: phone, email: email)
+    try person.save()
+    return Response(redirect: "/person/all")
   }
 
-  func edit(_ request: Request, user: Person) throws -> ResponseRepresentable {
-    return try app.view.make("user/edit", [
+  func edit(_ request: Request, person: Person) throws -> ResponseRepresentable {
+    return try app.view.make("person/edit", [
       "title": "Test App",
-      "heading": "Edit User",
-      "user": user.makeNode()
+      "heading": "Edit Person",
+      "person": person.makeNode(),
+      "directives": directives
     ])
   }
 
   func update(_ request: Request, updated: Person) throws -> ResponseRepresentable {
-    var user = updated
+    var person = updated
     if let first = request.data["first-name"]?.string {
-      user.firstName = first
+      person.firstName = first
     }
     if let last = request.data["last-name"]?.string {
-      user.lastName = last
+      person.lastName = last
     }
     if let phone = request.data["telephone"]?.string {
-      user.telephone = phone
+      person.telephone = phone
     }
     if let email = request.data["email"]?.string {
-      user.email = email
+      person.email = email
     }
-    try user.save()
-    return Response(redirect: "/user/all")
+    try person.save()
+    return Response(redirect: "/person/all")
   }
 
   func all(_ request: Request) throws -> ResponseRepresentable {
-    return try app.view.make("user/table", [
+    return try app.view.make("person/table", [
       "title": "Test App",
-      "heading": "All Users",
-      "users": Person.all().makeNode()
+      "heading": "All Persons",
+      "persons": Person.all().makeNode(),
+      "directives": directives
     ])
   }
 
   func list(_ request: Request) throws -> ResponseRepresentable {
-    let list = request.data["users"]?.array.flatMap { $0.map { Int($0.string ?? "") ?? 0 } } ?? []
-    let users = try Person.query().filter("id", .in, list).all()
-    return try app.view.make("user/table", [
+    var persons: [Person] = []
+    let list = request.data["persons"]?.array.flatMap { $0.map { Int($0.string ?? "") ?? 0 } } ?? []
+    if !list.isEmpty {
+      persons = try Person.query().filter("id", .in, list).all()
+    }
+    return try app.view.make("person/table", [
       "title": "Test App",
       "heading": "Some Users",
-      "users": users.makeNode()
+      "persons": persons.makeNode(),
+      "directives": directives
     ])
   }
 
-  func delete(_ request: Request, user: Person) throws -> ResponseRepresentable {
-    try user.delete()
-    return Response(redirect: "/user/all")
+  func delete(_ request: Request, person: Person) throws -> ResponseRepresentable {
+    try person.delete()
+    return Response(redirect: "/person/all")
   }
 }
