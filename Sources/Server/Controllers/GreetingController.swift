@@ -88,8 +88,7 @@ final class GreetingController {
 
   func list(_ request: Request) throws -> ResponseRepresentable {
     var greetings: [Greeting] = []
-    let list = request.data["greetings"]?.array.flatMap { $0.map { Int($0.string ?? "") ?? 0 } } ?? []
-    if !list.isEmpty {
+    if let list = request.data["greetings"]?.array?.flatMap({ Int($0.string ?? "") }) {
       greetings = try Greeting.query().filter("id", .in, list).all()
     }
     return try app.view.make("greeting/table", [
