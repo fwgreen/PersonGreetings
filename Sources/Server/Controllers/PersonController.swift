@@ -88,8 +88,7 @@ final class PersonController {
 
   func list(_ request: Request) throws -> ResponseRepresentable {
     var persons: [Person] = []
-    let list = request.data["persons"]?.array.flatMap { $0.map { Int($0.string ?? "") ?? 0 } } ?? []
-    if !list.isEmpty {
+    if let list = request.data["persons"]?.array?.flatMap({ Int($0.string ?? "") }) {
       persons = try Person.query().filter("id", .in, list).all()
     }
     return try app.view.make("person/table", [
