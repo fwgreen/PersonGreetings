@@ -1,7 +1,9 @@
 import Vapor
 import VaporPostgreSQL
 
-let app = Droplet(preparations: [Person.self, Greeting.self])
+let app = Droplet()
+
+app.preparations = [Person.self, Greeting.self]
 
 try app.addProvider(VaporPostgreSQL.Provider.self)
 
