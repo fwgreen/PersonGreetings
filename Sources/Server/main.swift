@@ -7,9 +7,6 @@ app.preparations = [Person.self, Greeting.self]
 
 try app.addProvider(VaporPostgreSQL.Provider.self)
 
-let greetings = GreetingController()
-let persons = PersonController()
-
 app.get("/") { request in
   return try app.view.make("index.html")
 }
@@ -19,6 +16,8 @@ app.get("/help") { request in
 }
 
 app.group("greeting") { greeting in
+  let greetings = GreetingController()
+  
   greeting.get("/", handler: greetings.index)
 
   greeting.get("/help", handler: greetings.help)
@@ -41,6 +40,8 @@ app.group("greeting") { greeting in
 }
 
 app.group("person") { person in
+  let persons = PersonController()
+  
   person.get("/", handler: persons.index)
 
   person.get("/help", handler: persons.help)
